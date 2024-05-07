@@ -23,8 +23,7 @@ public class JsonReactorReader implements Reader {
     @Override
     public List<Reactor> read(File file) throws IOException {
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Reactor>>() {
-        }.getType();
+        Type type = new TypeToken<List<Reactor>>() {}.getType();
         try (FileReader reader = new FileReader(file)) {
             List<Reactor> reactors = gson.fromJson(reader, type);
             for (Reactor reactor : reactors) {

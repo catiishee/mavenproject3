@@ -1,10 +1,10 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package mavenproject3;
 
 import javax.swing.SwingUtilities;
+
 /**
  *
  * @author user

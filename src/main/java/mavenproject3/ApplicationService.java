@@ -45,24 +45,23 @@ public class ApplicationService {
         return convertReactorMapToTreeNode(reactorMap);
     }
 
-    private DefaultMutableTreeNode convertReactorToTreeNode(Reactor reactor) {
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(reactor.getName());
-
-        DefaultMutableTreeNode propertiesNode = new DefaultMutableTreeNode("Properties");
-        propertiesNode.add(new DefaultMutableTreeNode("Burnup: " + reactor.getBurnup()));
-        propertiesNode.add(new DefaultMutableTreeNode("Kpd: " + reactor.getKpd()));
-        propertiesNode.add(new DefaultMutableTreeNode("Enrichment: " + reactor.getEnrichment()));
-        propertiesNode.add(new DefaultMutableTreeNode("Thermal Capacity: " + reactor.getTermalCapacity()));
-        propertiesNode.add(new DefaultMutableTreeNode("Electrical Capacity: " + reactor.getElectricalCapacity()));
-        propertiesNode.add(new DefaultMutableTreeNode("Lifetime: " + reactor.getLifeTime()));
-        propertiesNode.add(new DefaultMutableTreeNode("First Load: " + reactor.getFirstLoad()));
-
-        propertiesNode.add(new DefaultMutableTreeNode("Source: " + reactor.getSource().name()));
-
-        rootNode.add(propertiesNode);
-
-        return rootNode;
-    }
+//    private DefaultMutableTreeNode convertReactorToTreeNode(Reactor reactor) {
+//        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(reactor.getName());
+//
+//        DefaultMutableTreeNode propertiesNode = new DefaultMutableTreeNode("Properties");
+//        propertiesNode.add(new DefaultMutableTreeNode("Burnup: " + reactor.getBurnup()));
+//        propertiesNode.add(new DefaultMutableTreeNode("Kpd: " + reactor.getKpd()));
+//        propertiesNode.add(new DefaultMutableTreeNode("Enrichment: " + reactor.getEnrichment()));
+//        propertiesNode.add(new DefaultMutableTreeNode("Thermal Capacity: " + reactor.getTermalCapacity()));
+//        propertiesNode.add(new DefaultMutableTreeNode("Electrical Capacity: " + reactor.getElectricalCapacity()));
+//        propertiesNode.add(new DefaultMutableTreeNode("Lifetime: " + reactor.getLifeTime()));
+//        propertiesNode.add(new DefaultMutableTreeNode("First Load: " + reactor.getFirstLoad()));
+//        propertiesNode.add(new DefaultMutableTreeNode("Source: " + reactor.getSource().name()));
+//
+//        rootNode.add(propertiesNode);
+//
+//        return rootNode;
+//    }
 
     private DefaultMutableTreeNode convertReactorMapToTreeNode(Map<String, List<Reactor>> reactorMap) {
         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Reactors");
@@ -72,7 +71,7 @@ public class ApplicationService {
             List<Reactor> reactors = entry.getValue();
             DefaultMutableTreeNode groupNode = new DefaultMutableTreeNode(group);
             for (Reactor reactor : reactors) {
-                DefaultMutableTreeNode reactorNode = convertReactorToTreeNode(reactor);
+                DefaultMutableTreeNode reactorNode = reactor.convertReactorToTreeNode(reactor);
                 groupNode.add(reactorNode);
             }
             rootNode.add(groupNode);
@@ -80,5 +79,4 @@ public class ApplicationService {
 
         return rootNode;
     }
-
 }

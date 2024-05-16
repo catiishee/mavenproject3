@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultTreeModel;
+import react.Reactor;
 
 /**
  *
@@ -72,5 +73,7 @@ public class GUI extends JFrame {
 
         getContentPane().add(importButton, BorderLayout.NORTH);
         getContentPane().add(treeScroll, BorderLayout.CENTER);
+
     }
+
 }

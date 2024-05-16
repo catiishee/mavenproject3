@@ -4,12 +4,15 @@
  */
 package react;
 
+import java.util.ArrayList;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 /**
  *
  * @author user
  */
 public class Reactor {
-    
+
     private String name;
     private double burnup;
     private double kpd;
@@ -19,7 +22,7 @@ public class Reactor {
     private double life_time;
     private double first_load;
     private ReactorSource source;
-
+    
     public Reactor() {
     }
 
@@ -58,8 +61,6 @@ public class Reactor {
     public ReactorSource getSource() {
         return source;
     }
-    
-    
 
     public void setName(String name) {
         this.name = name;
@@ -96,5 +97,22 @@ public class Reactor {
     public void setSource(ReactorSource source) {
         this.source = source;
     }
-   
+    
+    public DefaultMutableTreeNode convertReactorToTreeNode(Reactor reactor) {
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(reactor.getName());
+
+        DefaultMutableTreeNode propertiesNode = new DefaultMutableTreeNode("Properties");
+        propertiesNode.add(new DefaultMutableTreeNode("Burnup: " + reactor.getBurnup()));
+        propertiesNode.add(new DefaultMutableTreeNode("Kpd: " + reactor.getKpd()));
+        propertiesNode.add(new DefaultMutableTreeNode("Enrichment: " + reactor.getEnrichment()));
+        propertiesNode.add(new DefaultMutableTreeNode("Thermal Capacity: " + reactor.getTermalCapacity()));
+        propertiesNode.add(new DefaultMutableTreeNode("Electrical Capacity: " + reactor.getElectricalCapacity()));
+        propertiesNode.add(new DefaultMutableTreeNode("Lifetime: " + reactor.getLifeTime()));
+        propertiesNode.add(new DefaultMutableTreeNode("First Load: " + reactor.getFirstLoad()));
+        propertiesNode.add(new DefaultMutableTreeNode("Source: " + reactor.getSource().name()));
+
+        rootNode.add(propertiesNode);
+
+        return rootNode;
+    }
 }

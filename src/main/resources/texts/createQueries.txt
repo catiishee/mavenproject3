@@ -1,0 +1,44 @@
+CREATE TABLE Region (
+    id SERIAL PRIMARY KEY,
+    region_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Country (
+    id SERIAL PRIMARY KEY,
+    region_id INTEGER NOT NULL REFERENCES Region(id),
+    country_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Type (
+    id SERIAL PRIMARY KEY,
+    type_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Operator (
+    id SERIAL PRIMARY KEY,
+    operator_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Owner (
+    id SERIAL PRIMARY KEY,
+    owner_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Reactor (
+    id SERIAL PRIMARY KEY,
+    type_id INTEGER NOT NULL REFERENCES Type(id),
+    country_id INTEGER NOT NULL REFERENCES Country(id),
+    operator_id INTEGER  NULL REFERENCES Operator(id),
+    owner_id INTEGER  NULL REFERENCES Owner(id),
+    thermal_capacity INTEGER NOT NULL,
+    reactor_name VARCHAR(255) NOT NULL,
+    connection_date DATE NOT NULL,
+    shutdown_date DATE  NULL
+);
+
+CREATE TABLE LoadFactor (
+    id SERIAL PRIMARY KEY,
+    reactor_id INTEGER NOT NULL REFERENCES Reactor(id),
+    load_factor float NULL,
+    year INTEGER NOT NULL
+);

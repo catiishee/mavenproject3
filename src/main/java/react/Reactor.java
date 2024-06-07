@@ -4,6 +4,8 @@
  */
 package react;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 /**
  *
  * @author user
@@ -59,8 +61,6 @@ public class Reactor {
         return source;
     }
     
-    
-
     public void setName(String name) {
         this.name = name;
     }
@@ -97,4 +97,22 @@ public class Reactor {
         this.source = source;
     }
    
+    public DefaultMutableTreeNode convertReactorToTreeNode() {
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(getName());
+
+        DefaultMutableTreeNode propertiesNode = new DefaultMutableTreeNode("Properties");
+        propertiesNode.add(new DefaultMutableTreeNode("Burnup: " + getBurnup()));
+        propertiesNode.add(new DefaultMutableTreeNode("Kpd: " + getKpd()));
+        propertiesNode.add(new DefaultMutableTreeNode("Enrichment: " + getEnrichment()));
+        propertiesNode.add(new DefaultMutableTreeNode("Thermal Capacity: " + getTermalCapacity()));
+        propertiesNode.add(new DefaultMutableTreeNode("Electrical Capacity: " + getElectricalCapacity()));
+        propertiesNode.add(new DefaultMutableTreeNode("Lifetime: " + getLifeTime()));
+        propertiesNode.add(new DefaultMutableTreeNode("First Load: " + getFirstLoad()));
+
+        propertiesNode.add(new DefaultMutableTreeNode("Source: " + getSource().name()));
+
+        rootNode.add(propertiesNode);
+
+        return rootNode;
+    }
 }

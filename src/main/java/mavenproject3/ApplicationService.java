@@ -2,17 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.mavenproject3;
+package mavenproject3;
 
+import aggregation.Agregator;
 import chain.JsonReaderHandler;
 import chain.ReaderHandler;
 import chain.XmlReaderHandler;
 import chain.YamlReaderHandler;
+import database.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import react.Reactor;
 
@@ -24,6 +27,7 @@ public class ApplicationService {
 
     private ReaderHandler readerHandler;
     private Map<String, List<Reactor>> reactorMap;
+    private Service service;
 
     public ApplicationService() {
         this.readerHandler = new JsonReaderHandler();
@@ -33,6 +37,8 @@ public class ApplicationService {
         secondHandler.setNext(thirdHandler);
 
         this.reactorMap = new HashMap<>();
+        
+        this.service = new Service();
     }
 
     public void handle(File file) throws IOException {
@@ -44,24 +50,23 @@ public class ApplicationService {
     public DefaultMutableTreeNode getNodes() {
         return convertReactorMapToTreeNode(reactorMap);
     }
-
-    private DefaultMutableTreeNode convertReactorToTreeNode(Reactor reactor) {
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(reactor.getName());
-
-        DefaultMutableTreeNode propertiesNode = new DefaultMutableTreeNode("Properties");
-        propertiesNode.add(new DefaultMutableTreeNode("Burnup: " + reactor.getBurnup()));
-        propertiesNode.add(new DefaultMutableTreeNode("Kpd: " + reactor.getKpd()));
-        propertiesNode.add(new DefaultMutableTreeNode("Enrichment: " + reactor.getEnrichment()));
-        propertiesNode.add(new DefaultMutableTreeNode("Thermal Capacity: " + reactor.getTermalCapacity()));
-        propertiesNode.add(new DefaultMutableTreeNode("Electrical Capacity: " + reactor.getElectricalCapacity()));
-        propertiesNode.add(new DefaultMutableTreeNode("Lifetime: " + reactor.getLifeTime()));
-        propertiesNode.add(new DefaultMutableTreeNode("First Load: " + reactor.getFirstLoad()));
-
-        propertiesNode.add(new DefaultMutableTreeNode("Source: " + reactor.getSource().name()));
-
-        rootNode.add(propertiesNode);
-
-        return rootNode;
+    
+    public void createDatabase(){
+        service.dropDatabase();
+        service.createDatabase();
+        service.insertDatabase();
+    }
+    
+    public DefaultTableModel showConsumptionByRegion(){
+        return new Agregator().computeConsumptionByRegion(service, reactorMap);
+    }
+    
+    public DefaultTableModel showConsumptionByCountry(){
+        return new Agregator().computeConsumptionByCountry(service, reactorMap);
+    }
+    
+    public DefaultTableModel showConsumptionByOperator(){
+        return new Agregator().computeConsumptionByOperator(service, reactorMap);
     }
 
     private DefaultMutableTreeNode convertReactorMapToTreeNode(Map<String, List<Reactor>> reactorMap) {
@@ -72,7 +77,7 @@ public class ApplicationService {
             List<Reactor> reactors = entry.getValue();
             DefaultMutableTreeNode groupNode = new DefaultMutableTreeNode(group);
             for (Reactor reactor : reactors) {
-                DefaultMutableTreeNode reactorNode = convertReactorToTreeNode(reactor);
+                DefaultMutableTreeNode reactorNode = reactor.convertReactorToTreeNode();
                 groupNode.add(reactorNode);
             }
             rootNode.add(groupNode);
